@@ -1,0 +1,44 @@
+
+<script type="module">
+  //import { quickMergeSort } from "./quickmergesortnumbers.js";
+  import { quickMergeSort, configQuickMergeSort } from "./quickmergesort.js";
+
+  configQuickMergeSort(
+    (array) => array.length, //arrayLenFn
+    (array, idx) => array[idx], //getFn,
+    (array, idx, value) => {
+      array[idx] = value;
+    }, //setFn,
+    (array, startIdx, endIdxPlusOne) => array.slice(startIdx, endIdxPlusOne), //sliceFn,
+    (a, b) => a < b, //isLesserThanFn,
+    (a, b) => a <= b //isLesserThanOrEqualToFn
+  );
+
+  function assert(x) {
+    if (!x) {
+      alert("assert failed");
+      throw new Error("assert failed");
+    }
+  }
+
+  for (let j = 0; j < 1000; j++) {
+    const arr = [];
+    for (let i = 0; i < 10; i++) {
+      arr.push(Math.round(Math.random() * 100));
+    }
+    const originalArr = [...arr];
+
+    //function under test
+    quickMergeSort(arr);
+
+    //verify
+    let prevNum = arr[0];
+    for (const num of arr) {
+      assert(prevNum <= num);
+      prevNum = num;
+    }
+
+    //alert("PASS:" + originalArr + " -> " + arr);
+  }
+  alert("PASS");
+</script>
